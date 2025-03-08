@@ -3,13 +3,15 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SignUp from "./Pages/Authentication/SignUp";
 import Header from "./Components/Header";
 import HomePage from "./Pages/Home";
+import Login from "./Pages/Authentication/Login";
+import Cookies from "js-cookie";
 function App() {
   const [userRole, setUserRole] = useState("doctor");
 
-//   useEffect(() => {
-//     const role = Cookies.get("role");
-//     setUserRole(role);
-//   }, []);
+  useEffect(() => {
+    const role = Cookies.get("role");
+    setUserRole(role);
+  }, []);
 
   return (
     <Router>
@@ -21,12 +23,9 @@ function App() {
           <main className="flex-1 overflow-y-auto relative">
             <div className="">
               <Routes>
-                {/* <Route path="/signup" element={<SignUp />} /> */}
-                <Route path="/" element={<HomePage/>} />
-                {/* <Route path="/login" element={<Login />} />
-                <Route path="/medicine-overview" element={<MedicineOverview />} />
-                <Route path="/medicine-analyzer" element={<MedicineAnalyzer />} />
-                <Route path="/chat-support" element={<Chatbot />} /> */}
+                <Route path="/signup" element={<SignUp />} />
+                <Route path="/" element={<HomePage />} />
+                <Route path="/login" element={<Login />} />
               </Routes>
             </div>
           </main>
