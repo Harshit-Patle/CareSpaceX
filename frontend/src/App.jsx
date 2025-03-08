@@ -4,6 +4,9 @@ import SignUp from "./Pages/Authentication/SignUp";
 import Header from "./Components/Header";
 import HomePage from "./Pages/Home";
 import Login from "./Pages/Authentication/Login";
+import DoctorDetails from "./Pages/DetailsForm/DoctorDetails";
+import PatientDetails from "./Pages/DetailsForm/PatientDetails";
+import HospitalDetails from "./Pages/DetailsForm/HospitalDetails";
 import Cookies from "js-cookie";
 function App() {
   const [userRole, setUserRole] = useState("doctor");
