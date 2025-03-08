@@ -28,6 +28,7 @@ const BookBedModal = ({
         email: "",
 
     });
+    const backendURL = import.meta.env.VITE_BACKEND_URL;
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -70,7 +71,7 @@ const BookBedModal = ({
                 return;
             }
 
-            const response = await axios.post('http://localhost:3000/payment/create/orderId', formData);
+            const response = await axios.post(`${backendURL}/payment/create/orderId`, formData);
             const { amount, currency, id } = response.data;
 
             const options = {
@@ -82,7 +83,7 @@ const BookBedModal = ({
                 order_id: id,
                 handler: async function (response) {
                     try {
-                        const verifyResponse = await axios.post('http://localhost:3000/payment/api/payment/verify/bed', {
+                        const verifyResponse = await axios.post(`${backendURL}/payment/api/payment/verify/bed`, {
                             razorpayOrderId: response.razorpay_order_id,
                             razorpayPaymentId: response.razorpay_payment_id,
                             signature: response.razorpay_signature,

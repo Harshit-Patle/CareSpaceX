@@ -24,6 +24,7 @@ function HospitalDetails() {
     bedCharge: "",
     bedsAvailable: "", // Added new field for beds available
   });
+  const backendURL = import.meta.env.VITE_BACKEND_URL;
 
   // Custom styles for Select components
   const customStyles = {
@@ -163,7 +164,7 @@ function HospitalDetails() {
 
     try {
       const res = await axios.post(
-        "http://localhost:3000/detail/hospitaldetail",
+        `${backendURL}/detail/hospitaldetail`,
         formData,
         {
           headers: {

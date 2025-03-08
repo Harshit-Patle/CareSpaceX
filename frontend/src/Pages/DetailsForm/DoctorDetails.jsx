@@ -25,6 +25,7 @@ function DoctorDetails() {
     role: "",
     email: "",
   });
+  const backendURL = import.meta.env.VITE_BACKEND_URL;
 
   const customStyles = {
     control: (base) => ({
@@ -123,7 +124,7 @@ function DoctorDetails() {
     });
 
     try {
-      const res = await axios.post("http://localhost:3000/detail/doctordetail", formData, {
+      const res = await axios.post(`${backendURL}/detail/doctordetail`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

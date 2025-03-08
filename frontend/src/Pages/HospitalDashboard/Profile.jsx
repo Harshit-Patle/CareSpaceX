@@ -8,6 +8,7 @@ const Profile = () => {
   const [hospital, setHospital] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const backendURL = import.meta.env.VITE_BACKEND_URL;
 
 
   useEffect(() => {
@@ -15,7 +16,7 @@ const Profile = () => {
       try {
         let email = Cookies.get('email');
         const response = await axios.post(
-          "http://localhost:3000/profile/hospital",
+          `${backendURL}/profile/hospital`,
           { email },
           { headers: { "Content-Type": "application/json", }, }
         );

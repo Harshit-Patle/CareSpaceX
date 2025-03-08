@@ -9,13 +9,14 @@ const BedManagement = () => {
   const [beds, setBeds] = useState([]);
    const [loading, setLoading] = useState(true);
      const [error, setError] = useState(null);
+  const backendURL = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
     const fetchbed = async () => {
       try {
         const email = Cookie.get('email');
         const response = await axios.post(
-          "http://localhost:3000/list/bed",
+          `${backendURL}/list/bed`,
           { email },
           { headers: { "Content-Type": "application/json" } }
         );
@@ -51,7 +52,7 @@ const BedManagement = () => {
   
     try {
       const response = await axios.post(
-        "http://localhost:3000/list/updatebed", 
+        `${backendURL}/list/updatebed`, 
         { unique, approval },
         { headers: { "Content-Type": "application/json" } }
       );

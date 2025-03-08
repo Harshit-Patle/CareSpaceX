@@ -14,7 +14,7 @@ const PatientHistory = () => {
     const fetchPatient = async () => {
       try {
         const response = await axios.post(
-          "http://localhost:3000/search/patient",
+          `${backendURL}/search/patient`,
           {},
           {
             headers: {

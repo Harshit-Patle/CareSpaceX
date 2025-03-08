@@ -30,6 +30,7 @@ function Login() {
 
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
+  const backendURL = import.meta.env.VITE_BACKEND_URL;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -43,7 +44,7 @@ function Login() {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:3000/sign/login",
+        `${backendURL}/sign/login`,
         {
           email: formData.email,
           otp: formData.otp,

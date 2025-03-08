@@ -18,12 +18,14 @@ function DoctorManagement() {
   const [doctors, setDoctors] = useState([]);
   const [pdfError, setPdfError] = useState(false);  // Track PDF loading errors
 
+  const backendURL = import.meta.env.VITE_BACKEND_URL;
+
   // Fetch doctor data from the backend
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
         const response = await axios.post(
-          "http://localhost:3000/admin/doctor",
+          `${backendURL}/admin/doctor`,
           {},
           { headers: { "Content-Type": "application/json" } }
         );
@@ -62,7 +64,7 @@ function DoctorManagement() {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/admin/update",
+        `${backendURL}/admin/update`,
         { unique, approval },
         { headers: { "Content-Type": "application/json" } }
       );
@@ -117,7 +119,7 @@ function DoctorManagement() {
                       <div className="text-red-500 text-center">Failed to load document.</div>
                     ) : (
                       <iframe
-                         src={`http://localhost:3000/upload/${doctor.certificate}`} 
+                            src={`${backendURL}/upload/${doctor.certificate}`} 
                       // src=`C:\Users\sriva\Desktop\Medical-website-1\backend\upload\1741246717764.pdf`
                         className="w-full h-full rounded-lg"
                         onLoad={handleDocumentLoad}

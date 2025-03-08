@@ -10,6 +10,7 @@ const Profile = () => {
   const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [editedValues, setEditedValues] = useState({});
+  const backendURL = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
     const fetchDoctorData = async () => {
@@ -17,7 +18,7 @@ const Profile = () => {
       const email = Cookies.get('email');
       try {
         const response = await axios.post(
-          "http://localhost:3000/profile/doctor",
+          `${backendURL}/profile/doctor`,
           { email },
           { headers: { "Content-Type": "application/json" } }
         );

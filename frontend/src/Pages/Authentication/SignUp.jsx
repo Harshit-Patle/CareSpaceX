@@ -41,8 +41,7 @@ function SignUp() {
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-
-
+  const backendURL = import.meta.env.VITE_BACKEND_URL;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -61,7 +60,7 @@ function SignUp() {
     Cookies.set('role', formData.role);
     setLoading(true);
     try {
-      const res = await axios.post("http://localhost:3000/sign/signup", formData, {
+      const res = await axios.post(`${backendURL}/sign/signup`, formData, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -83,7 +82,7 @@ function SignUp() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:3000/sign/verify-otp", formData, {
+      const res = await axios.post(`${backendURL}/sign/verify-otp`, formData, {
         headers: {
           "Content-Type": "application/json",
         },

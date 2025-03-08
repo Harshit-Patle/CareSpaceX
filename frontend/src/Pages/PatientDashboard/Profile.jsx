@@ -14,13 +14,14 @@ const Profile = () => {
     weight: '',
     height: ''
   });
+  const backendURL = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
         let email = Cookies.get('email');
         const response = await axios.post(
-          "http://localhost:3000/profile/user",
+          `${backendURL}/profile/user`,
           { email },
           { headers: { "Content-Type": "application/json", }, }
         );

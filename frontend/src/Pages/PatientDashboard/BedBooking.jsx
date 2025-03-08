@@ -22,6 +22,7 @@ const BedBooking = () => {
   const [hospitals, setHospitals] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const backendURL = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
     const fetchHospitals = async () => {
@@ -30,7 +31,7 @@ const BedBooking = () => {
         const state = Cookies.get('state');
         const country = Cookies.get('country');
         const response = await axios.post(
-          "http://localhost:3000/hospital/new", 
+          `${backendURL}/hospital/new`, 
           { city, state, country },
           { headers: { "Content-Type": "application/json" } }
         );

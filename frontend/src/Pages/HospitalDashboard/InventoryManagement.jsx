@@ -13,13 +13,14 @@ const InventoryManagement = () => {
     const [inventories, setInventories] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const backendURL = import.meta.env.VITE_BACKEND_URL;
 
     useEffect(() => {
         const fetchAppointments = async () => {
             try {
                 const email = Cookies.get('email');
                 const response = await axios.post(
-                    "http://localhost:3000/add/collect",
+                    `${backendURL}/add/collect`,
                     { email },
                     { headers: { "Content-Type": "application/json" } }
                 );
@@ -58,7 +59,7 @@ const InventoryManagement = () => {
         newInventory.email = Cookies.get('email');
         try {
             const response = await axios.post(
-                "http://localhost:3000/add/inventory",
+                `${backendURL}/add/inventory`,
                 { newInventory },
                 {
                     headers: {

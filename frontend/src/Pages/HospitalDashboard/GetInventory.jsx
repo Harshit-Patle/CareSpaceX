@@ -10,12 +10,13 @@ const GetInventory = () => {
     const [inventoryData, setinventoryData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const backendURL = import.meta.env.VITE_BACKEND_URL;
 
     useEffect(() => {
         const fetchUser = async () => {
             try {
                 const response = await axios.post(
-                    "http://localhost:3000/medicine/available",
+                    `${backendURL}/medicine/available`,
                     {},
                     { headers: { "Content-Type": "application/json", }, }
                 );

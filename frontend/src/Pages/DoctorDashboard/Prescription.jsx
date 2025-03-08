@@ -10,6 +10,7 @@ const Prescription = () => {
     const [medications, setMedications] = useState([
         { name: '', dosage: '', startDate: '', endDate: '' }
     ]);
+    const backendURL = import.meta.env.VITE_BACKEND_URL;
 
     // Add new medication row
     const addMedication = () => {
@@ -46,7 +47,7 @@ const Prescription = () => {
         };
 
         const response = await axios.post(
-            "http://localhost:3000/medicine/detail",
+            `${backendURL}/medicine/detail`,
             {prescriptionData});
 
     };

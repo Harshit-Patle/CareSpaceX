@@ -21,13 +21,14 @@ const History = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState('appointments');
+  const backendURL = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
     const fetchAppointments = async () => {
       const email = Cookies.get('email');
       try {
         const response = await axios.post(
-          "http://localhost:3000/history/user",
+          `${backendURL}/history/user`,
           { email },
           {
             headers: {
@@ -46,7 +47,7 @@ const History = () => {
       const email = Cookies.get('email');
       try {
         const response = await axios.post(
-          "http://localhost:3000/history/bed",
+          `${backendURL}/history/bed`,
           { email },
           {
             headers: {
@@ -67,7 +68,7 @@ const History = () => {
     //   const email = Cookies.get('email');
     //   try {
     //     const response = await axios.post(
-    //       "http://localhost:3000/history/medicines",
+    //       `${backendURL}/history/medicines`,
     //       { email },
     //       {
     //         headers: {

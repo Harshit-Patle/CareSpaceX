@@ -21,6 +21,7 @@ const Page = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedDoctor, setSelectedDoctor] = useState(null);
+  const backendURL = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
     const fetchDoctors = async () => {
@@ -30,7 +31,7 @@ const Page = () => {
         const country = Cookies.get('country');
         console.log(city, state, country);
         const response = await axios.post(
-          "http://localhost:3000/loading/new",
+          `${backendURL}/loading/new`,
           { city, state, country },
           {
             headers: {

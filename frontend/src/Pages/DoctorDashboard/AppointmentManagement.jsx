@@ -13,6 +13,7 @@ const AppointmentManagement = () => {
 
   const [selectedIssue, setSelectedIssue] = useState(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const backendURL = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
     const fetchAppointments = async () => {
@@ -20,7 +21,7 @@ const AppointmentManagement = () => {
         console.log(appointments);
         const email = Cookie.get('email');
         const response = await axios.post(
-          "http://localhost:3000/list/appointment",
+          `${backendURL}/list/appointment`,
           { email },
           { headers: { "Content-Type": "application/json" } }
         );
@@ -48,7 +49,7 @@ const AppointmentManagement = () => {
     );
     let unique=appointments[0]._id;
     const response = await axios.post(
-      "http://localhost:3000/list/update",
+      `${backendURL}/list/update`,
       { unique,approval },
       { headers: { "Content-Type": "application/json" } }
     );

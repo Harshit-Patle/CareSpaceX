@@ -5,8 +5,9 @@ import ChatInterface from "@/Components/ChatInterface";
 import io from 'socket.io-client';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+const backendURL = import.meta.env.VITE_BACKEND_URL;
 
-const socket = io('http://localhost:3000');
+const socket = io(`${backendURL}`);
 
 const ChatWithDoctor = () => {
     const [selectedDoctor, setSelectedDoctor] = useState(null);
@@ -23,7 +24,7 @@ const ChatWithDoctor = () => {
                 const state = Cookies.get('state');
                 const country = Cookies.get('country');
                 const response = await axios.post(
-                    "http://localhost:3000/loading/new",
+                    `${backendURL}/loading/new`,
                     { city, state, country },
                     {
                         headers: {
@@ -65,7 +66,7 @@ const ChatWithDoctor = () => {
         const recipient = doctor.email;
 
         const response = await axios.post(
-            "http://localhost:3000/history/chat",
+            `${backendURL}/history/chat`,
             { sender, recipient },
             {
                 headers: {
@@ -88,7 +89,7 @@ const ChatWithDoctor = () => {
         const recipient = selectedDoctor.email;
 
         await axios.post(
-            "http://localhost:3000/history/save",
+            `${backendURL}/history/save`,
             { sender, recipient, newMessage },
             {
                 headers: {

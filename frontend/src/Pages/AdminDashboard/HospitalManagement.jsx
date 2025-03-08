@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Check, X, FileText, Loader2 } from 'lucide-react';
@@ -14,33 +14,34 @@ import Cookie from 'js-cookie';
 
 function HospitalManagement() {
   const [isLoading, setIsLoading] = useState(false);
-     const [loading, setLoading] = useState(true);
-      const [error, setError] = useState(null);
-       const [hospitals, sethospitals] = useState([]);
-  
-    useEffect(() => {
-      const fetchAppointments = async () => {
-        try {
-          const response = await axios.post(
-            "http://localhost:3000/admin/hospital",
-            {},
-            { headers: { "Content-Type": "application/json" } }
-          );
-          console.log(response.data);
-          sethospitals(response.data);
-          setLoading(false);
-        } catch (err) {
-          console.error(err);
-          setError("Something went wrong while fetching the appointments.");
-          setLoading(false);
-        }
-      };
-  
-      fetchAppointments();
-    }, []);
-  
-    if (loading) return <div className="loading">Loading appointments...</div>;
-    if (error) return <div className="error">{error}</div>;
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [hospitals, sethospitals] = useState([]);
+  const backendURL = import.meta.env.VITE_BACKEND_URL;
+
+  useEffect(() => {
+    const fetchAppointments = async () => {
+      try {
+        const response = await axios.post(
+          `${backendURL}/admin/hospital`,
+          {},
+          { headers: { "Content-Type": "application/json" } }
+        );
+        console.log(response.data);
+        sethospitals(response.data);
+        setLoading(false);
+      } catch (err) {
+        console.error(err);
+        setError("Something went wrong while fetching the appointments.");
+        setLoading(false);
+      }
+    };
+
+    fetchAppointments();
+  }, []);
+
+  if (loading) return <div className="loading">Loading appointments...</div>;
+  if (error) return <div className="error">{error}</div>;
 
   const handleDocumentLoad = () => {
     setIsLoading(false);
@@ -51,19 +52,19 @@ function HospitalManagement() {
     // Handle error - you might want to show an error message
   };
 
-  const handleApprove = async(hospitalId) => {
-      let approval='confirmed';
-      let  unique=hospitals[0]._id;
-       const response = await axios.post(
-        "http://localhost:3000/admin/updatehospital",
-        { unique,approval },
-        { headers: { "Content-Type": "application/json" } }
-      );
-      if(response.status==200)
-        alert("Appointment status updated successfully");
-      else
+  const handleApprove = async (hospitalId) => {
+    let approval = 'confirmed';
+    let unique = hospitals[0]._id;
+    const response = await axios.post(
+      `${backendURL}/admin/updatehospital`,
+      { unique, approval },
+      { headers: { "Content-Type": "application/json" } }
+    );
+    if (response.status == 200)
+      alert("Appointment status updated successfully");
+    else
       alert("Failed to update appointment status");
-    };
+  };
 
   const handleReject = (hospitalId) => {
     console.log(`Rejected hospital with ID: ${hospitalId}`);

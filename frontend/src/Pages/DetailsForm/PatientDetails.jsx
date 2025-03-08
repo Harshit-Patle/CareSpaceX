@@ -30,6 +30,7 @@ function PatientDetails() {
     phone: "",
     date: null,
   });
+  const backendURL = import.meta.env.VITE_BACKEND_URL;
 
   const customStyles = {
     control: (base) => ({
@@ -105,7 +106,7 @@ function PatientDetails() {
     };
 
     try {
-      const res = await axios.post("http://localhost:3000/detail/userdetail", submissionData, {
+      const res = await axios.post(`${backendURL}/detail/userdetail`, submissionData, {
         headers: {
           "Content-Type": "application/json",
         },
