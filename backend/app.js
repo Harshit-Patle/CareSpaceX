@@ -8,6 +8,7 @@ const cookieParser = require('cookie-parser');
 const http = require('http');
 const server = http.createServer(app);
 let sign = require('./route/signup');
+let details = require('./route/detail');
 
 
 const io = require('socket.io')(server, {
@@ -41,6 +42,7 @@ var corsOptions = {
 app.use(cors(corsOptions));
 
 app.use('/sign', sign);
+app.use('/detail', details);
 
 
 
