@@ -47,8 +47,6 @@ app.use('/detail', details);
 app.use('/hospital', hospital);
 
 
-
-
 app.get('/', (req, res) => {
     res.send("Testing phase");
 });
