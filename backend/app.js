@@ -9,6 +9,7 @@ const http = require('http');
 const server = http.createServer(app);
 let sign = require('./route/signup');
 let details = require('./route/detail');
+const hospital = require('./route/bed');
 
 
 const io = require('socket.io')(server, {
@@ -43,8 +44,7 @@ app.use(cors(corsOptions));
 
 app.use('/sign', sign);
 app.use('/detail', details);
-
-
+app.use('/hospital', hospital);
 
 
 app.get('/', (req, res) => {
