@@ -2,10 +2,12 @@ let express = require('express');
 let app = express();
 let cors = require('cors');
 let dotenv = require('dotenv');
+let connectdb = require('./config/db.js');
 let session = require('express-session');
 const cookieParser = require('cookie-parser');
 const http = require('http');
 const server = http.createServer(app);
+let sign = require('./route/signup');
 
 
 const io = require('socket.io')(server, {
@@ -18,6 +20,7 @@ const io = require('socket.io')(server, {
 });
 
 dotenv.config();
+connectdb();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -36,6 +39,8 @@ var corsOptions = {
 };
 
 app.use(cors(corsOptions));
+
+app.use('/sign', sign);
 
 
 
