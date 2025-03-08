@@ -34,7 +34,9 @@ const PatientHistory = () => {
   }, []);
 
   const filteredPatients = patients.filter(patient =>
-    patient.email.toLowerCase().includes(searchTerm.toLowerCase())
+    patient.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    patient.patient.toLowerCase().includes(searchTerm.toLowerCase()) || // Include name in search
+    patient.issue.toLowerCase().includes(searchTerm.toLowerCase()) // Include issue in search
   );
 
   const openPrescriptionModal = (prescription) => {
@@ -66,7 +68,7 @@ const PatientHistory = () => {
           <div>
             <h3 className="text-lg font-semibold text-purple-700 mb-2">Medications</h3>
             <div className="space-y-3">
-              {prescription.medications.map((med, index) => (
+              {prescription.map((med, index) => (
                 <div
                   key={index}
                   className="bg-purple-50 p-3 rounded-md border border-purple-100"
@@ -97,7 +99,7 @@ const PatientHistory = () => {
         <div className="mb-6 relative">
           <input
             type="text"
-            placeholder="Search by patient email"
+            placeholder="Search by email, name, or issue"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full p-3 pl-10 border-2 border-purple-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
@@ -106,7 +108,9 @@ const PatientHistory = () => {
         </div>
 
         {loading ? (
-          <div className="text-center text-purple-600 py-10">Loading...</div>
+          <div className="text-center py-10 text-purple-600">
+            <div className="spinner">Loading...</div>
+          </div>
         ) : error ? (
           <div className="text-center text-red-500 py-10">{error}</div>
         ) : (
@@ -127,7 +131,7 @@ const PatientHistory = () => {
                         <button
                           onClick={() => openPrescriptionModal(patient.prescription)}
                           className="bg-purple-500 text-white px-4 py-2 rounded-md hover:bg-purple-600 transition-colors flex items-center space-x-2"
-                          disabled={!patient.prescription}
+                          disabled={!patient.prescription || patient.prescription.length === 0}
                         >
                           <FileText size={18} />
                           <span>Prescription</span>
@@ -137,7 +141,7 @@ const PatientHistory = () => {
                       <div className="grid grid-cols-2 gap-3 text-purple-700">
                         <div className="flex items-center space-x-2">
                           <Calendar size={18} className="text-purple-500" />
-                          <span>{patient.date}</span>
+                          <span>{new Date(patient.date).toLocaleDateString()}</span> {/* Formatted date */}
                         </div>
                         <div className="flex items-center space-x-2">
                           <Clock size={18} className="text-purple-500" />
@@ -166,7 +170,7 @@ const PatientHistory = () => {
               </div>
             ) : (
               <div className="text-center text-purple-600 py-10">
-                <p>Start typing an email to search for patient records</p>
+                <p>Start typing an email, name, or issue to search for patient records</p>
               </div>
             )}
           </>

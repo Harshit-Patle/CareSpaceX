@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { User, Bell, LogIn, UserPlus } from 'lucide-react';
-// import Chatbot from './Chatbot';
+import Chatbot from './Chatbot';
 import Cookies from "js-cookie";
 import { Link } from 'react-router-dom';
 
@@ -20,9 +20,9 @@ function Header() {
     }, []);  // Empty dependency array means this only runs on mount
 
     return (
-        <div className='flex justify-between items-center bg-white text-[#563393] p-4 shadow-md'>
+        <div className='flex justify-between items-center bg-[#eef5f5cb] text-[#563393] p-4 shadow-md shadow-blue-200 border-b-2 border-blue-600'>
             {/* Left - Logo Section */}
-            <div className='flex items-center space-x-4'>
+            <div className='flex items-center space-x-4 drop-shadow-xl '>
                 <img
                     src="../Public/image.png"
                     alt="LOGO"
@@ -56,10 +56,10 @@ function Header() {
                                         />
                                     ) : (
                                         <div className='bg-purple-200 text-[#563393] rounded-full w-10 h-10 flex items-center justify-center'>
-                                            <User className='w-6 h-6' />
+                                            <User className='w-6 h-6 text-red-500' />
                                         </div>
                                     )}
-                                    <span className='font-medium'>{user}</span>
+                                    <span className='font-medium text-black'>{user}</span>
                                 </div>
                             ) : null}
                         </div>

@@ -92,7 +92,7 @@ app.post('/signup', async (req, res) => {
 app.post('/signin', async (req, res) => {
   let otp = generateOTP(); 
   let email = req.body.email;
-  console.log(req.body)
+  console.log(req.body.email)
   try{
     let user ;
     if(req.body.role==='patient')
@@ -170,7 +170,7 @@ app.post('/login', async (req, res) => {
     let otp = req.body.otp;
     let email = req.body.email;
 
-    console.log(email);
+    console.log(req.body);
 
     if (!otp || !email) {
       return res.status(400).json({ message: 'OTP and Email are required' });

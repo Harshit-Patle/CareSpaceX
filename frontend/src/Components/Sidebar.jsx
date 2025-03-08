@@ -27,10 +27,10 @@ const Sidebar = ({ userRole, onLogout }) => {
             { path: "/doctor-appointment", label: "Doctor Appointment", icon: "📅" },
             { path: "/bed-booking", label: "Bed Booking", icon: "🏥" },
             // { path: "/order-medicine", label: "Order Medicine", icon: "📦" },
-            { path: "/chat-with-doctor", label: "Chat with Doctor", icon: "💬" },
+            // { path: "/chat-with-doctor", label: "Chat with Doctor", icon: "💬" },
             { path: "/medicine-overview", label: "Medicine Guidelines & Alternatives", icon: "💊" },
             { path: "/history", label: "History", icon: "🕰️" },
-            { path: "/chat-support", label: "AI Chat Support", icon: "🕰️" },
+            { path: "/chat-support", label: "AI Chat Support", icon: "🤖" },
         ],
         doctor: [
             { path: "/doctor-profile", label: "My Profile", icon: "🩺" },
@@ -39,14 +39,15 @@ const Sidebar = ({ userRole, onLogout }) => {
             { path: "/medicine-overview", label: "Medicine Guidelines & Alternatives", icon: "💊" },
             { path: "/medicine-analyzer", label: "Medicine Analyzer", icon: "💊" },
             { path: "/prescription", label: "Add Prescription", icon: "📜" },
-            { path: "/chat-with-patient", label: "Chat with Patient", icon: "💬" },
-            { path: "/chat-support", label: "AI Chat Support", icon: "🕰️" },
+            // { path: "/chat-with-patient", label: "Chat with Patient", icon: "💬" },
+            { path: "/chat-support", label: "AI Chat Support", icon: "🤖" },
         ],
         hospital: [
             { path: "/hospital-profile", label: "My Profile", icon: "👤" },
             { path: "/bed-management", label: "Bed Management", icon: "🛏️" },
             { path: "/inventory-management", label: "Inventory Management", icon: "📦" },
             { path: "/get-inventory", label: "Get Inventory", icon: "📋" },
+            { path: "/chat-support", label: "AI Chat Support", icon: "🤖" },
         ],
         admin: [
             { path: "/hospital-management", label: "Hospital Management", icon: "🏥" },
@@ -71,7 +72,7 @@ const Sidebar = ({ userRole, onLogout }) => {
 
             {/* Sidebar */}
             <div
-                className={`fixed left-0 top-0 h-full w-64 bg-white text-[#563393] 
+                className={`fixed left-0 top-0 h-full w-64 bg-blue-200 text-[#563393] 
                     transform transition-transform duration-300 ease-in-out z-40 
                     ${isOpen ? 'translate-x-0' : '-translate-x-full'} 
                     md:relative md:translate-x-0 shadow-lg overflow-y-auto`}

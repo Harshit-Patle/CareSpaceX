@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { Link } from "react-router-dom";
@@ -46,7 +47,7 @@ function Login() {
         {
           email: formData.email,
           otp: formData.otp,
-          role: formData.role,
+          role: formData.role
         },
         {
           headers: {
@@ -54,34 +55,48 @@ function Login() {
           },
         }
       );
-      
       if (res.status !== 200) {
         alert("OTP wrong");
       } else {
         Cookies.set('city', res.data.city);
         Cookies.set('state', res.data.state);
         Cookies.set('country', res.data.country);
+
         Cookies.set('isLoggedIn', true);
         Cookies.set('name', res.data.name);
         Cookies.set('role', formData.role);
 
         alert("OTP verified successfully");
 
-        // Navigate based on role
-        if (formData.role === 'patient') {
+
+        Cookies.set('isLoggedIn', true);
+        Cookies.set('name', res.data.name);
+
+
+
+        if (formData.role == 'patient') {
           navigate("/patient-profile");
-        } else if (formData.role === 'doctor') {
+          window.location.reload();
+        }
+        else if (formData.role == 'doctor') {
           navigate("/doctor-profile");
-        } else if (formData.role === 'admin') {
+          window.location.reload();
+        }
+        else if (formData.role == 'admin') {
           navigate("/doctor-management");
-        } else {
+          window.location.reload();
+        }
+        else {
           navigate("/hospital-profile");
         }
+
       }
     } catch (error) {
-      alert(error.message || "An error occurred during login.");
+      alert(error.message);
     }
   };
+
+
 
   const handleOtpChange = (otpValue) => {
     setFormData((prevData) => ({
@@ -91,12 +106,12 @@ function Login() {
   };
 
   const handleSendOtp = async () => {
+    console.log(formData.role);
     if (!formData.email) {
       alert("Please enter your email!");
       return;
     }
     Cookies.set('email', formData.email, { expires: 1 / 24 });
-
     try {
       setShowModal(true);
       const res = await axios.post("http://localhost:3000/sign/signin", formData);

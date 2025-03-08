@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Plus, Trash2, Save, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Prescription = () => {
     const navigate = useNavigate();
@@ -31,27 +32,23 @@ const Prescription = () => {
     };
 
     // Handle form submission
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Validate form data
         if (!patientEmail) {
             alert('Please enter patient email');
             return;
         }
-
-        // Prepare prescription data
         const prescriptionData = {
             patientEmail,
             doctorNotes,
             medications
         };
 
-        // TODO: Send data to backend/database
-        console.log('Prescription Data:', prescriptionData);
+        const response = await axios.post(
+            "http://localhost:3000/medicine/detail",
+            {prescriptionData});
 
-        // Optional: Reset form or show success message
-        alert('Prescription saved successfully!');
     };
 
     // Handle cancel action

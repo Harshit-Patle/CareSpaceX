@@ -77,9 +77,9 @@ const DoctorAppointment = ({ doctors }) => {
     setSelectedDoctor(doctor);
     console.log(`${doctor.charges}`);
     Cookies.set('price', doctor.charges);
-    Cookies.set('doctor',doctor.email);
-    Cookies.set('doctorname',doctor.name);
-    Cookies.set('charges',doctor.charges);
+    Cookies.set('doctor', doctor.email);
+    Cookies.set('doctorname', doctor.name);
+    Cookies.set('charges', doctor.charges);
     setIsModalOpen(true);
   };
 
@@ -89,7 +89,7 @@ const DoctorAppointment = ({ doctors }) => {
   };
 
   return (
-    <div className="p-2" style={{ backgroundColor: "white", color: "#563393" }}>
+    <div className="p-2" style={{ backgroundColor: "transparent", color: "#563393" }}>
       <div className="flex items-center mb-6">
         <User size={32} color="#563393" className="mr-3" />
         <h1 className="text-3xl font-bold" style={{ color: "#563393" }}>
@@ -113,7 +113,7 @@ const DoctorAppointment = ({ doctors }) => {
           <Card
             key={doctor.id}
             className="rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300"
-            style={{ backgroundColor: "white", border: "2px solid #563393" }}
+            style={{ backgroundColor: "gray-200", border: "2px solid #563393" }}
           >
             <CardHeader className="flex flex-row items-center space-x-3">
               <Stethoscope size={24} color="#563393" />

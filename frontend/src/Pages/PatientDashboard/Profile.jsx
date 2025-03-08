@@ -77,8 +77,8 @@ const Profile = () => {
   };
 
   return (
-    <div className="h-fit p-3">
-      <Card className="w-full border border-purple-100">
+    <div className="h-fit p-3 ">
+      <Card className="w-full border border-purple-100 bg-[#a4def0]">
         <CardHeader className="space-y-1 pb-4">
           <CardTitle className="text-3xl font-bold text-[#563393]">
             My Profile
@@ -98,7 +98,7 @@ const Profile = () => {
               { icon: Droplet, label: 'Blood Group', value: user?user.bloodGroup : "N/A" },
               { icon: MapPin, label: 'Location', value:`${user.city},${user.state},${user.country}`}
             ].map((item, index) => (
-              <div key={index} className="flex items-center gap-4 p-4 bg-white rounded-lg border border-purple-100 shadow-sm hover:border-[#563393] transition-colors">
+              <div key={index} className="flex items-center gap-4 p-4 bg-[#ffffff76] rounded-lg border border-purple-100 shadow-sm hover:border-[#563393] transition-colors">
                 <div className="bg-purple-50 p-3 rounded-lg">
                   <item.icon className="w-6 h-6 text-[#563393]" />
                 </div>
