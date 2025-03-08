@@ -1,0 +1,16 @@
+streamlit           # For building the app interface
+pandas             # For handling data operations
+numpy              # Ensures compatibility with Pandas
+matplotlib         # For creating plots and visualizations
+seaborn            # For advanced statistical visualizations
+scikit-learn       # For machine learning operations like LabelEncoder
+Pillow             # For handling images (downgraded for compatibility)
+beautifulsoup4     # For web scraping
+requests           # For making HTTP requests
+pyarrow            # Required by Streamlit for caching
+gensim             # For topic modeling and natural language processing
+xgboost            # For gradient boosting machine learning algorithms
+pycaret            # For low-code machine learning automation
+catboost           # For categorical boosting algorithms
+optuna             # For hyperparameter optimization
+altair             # For data visualization
