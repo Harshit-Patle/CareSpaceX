@@ -115,7 +115,7 @@ function Login() {
     Cookies.set('email', formData.email, { expires: 1 / 24 });
     try {
       setShowModal(true);
-      const res = await axios.post("http://localhost:3000/sign/signin", formData);
+      const res = await axios.post(`${backendURL}/sign/signin`, formData);
 
       if (res.status === 200) {
         alert("OTP sent successfully!");
