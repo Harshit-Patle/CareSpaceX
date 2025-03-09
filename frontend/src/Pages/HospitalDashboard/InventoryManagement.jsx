@@ -15,82 +15,124 @@ const InventoryManagement = () => {
     const [error, setError] = useState(null);
     const backendURL = import.meta.env.VITE_BACKEND_URL;
 
-    useEffect(() => {
-        const fetchAppointments = async () => {
-            try {
-                const email = Cookies.get('email');
-                const response = await axios.post(
-                    `${backendURL}/add/collect`,
-                    { email },
-                    { headers: { "Content-Type": "application/json" } }
-                );
-                console.log(response.data.items[0]);
-                setInventories(response.data.items);
+    const fetchInventory = async () => {
+        try {
+            const email = Cookies.get('email');
+            if (!email) {
+                setError("User not logged in");
                 setLoading(false);
-            } catch (err) {
-                console.error(err);
-                setError("Something went wrong while fetching the appointments.");
-                setLoading(false);
+                return;
             }
-        };
 
-        fetchAppointments();
+            const response = await axios.post(
+                `${backendURL}/add/collect`,
+                { email },
+                { headers: { "Content-Type": "application/json" } }
+            );
+
+            let items = [];
+
+            if (response && response.data) {
+                if (Array.isArray(response.data.items)) {
+                    items = response.data.items;
+                } else if (Array.isArray(response.data)) {
+                    items = response.data;
+                }
+            }
+
+            setInventories(items);
+            setLoading(false);
+        } catch (err) {
+            console.error("Error fetching inventory:", err);
+            setError("Failed to fetch inventory items");
+            setInventories([]);
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchInventory();
     }, []);
-    
 
     const [newInventory, setNewInventory] = useState({
         type: '',
         name: '',
         quantity: '',
-        email: '',
     });
 
-    const inventoryTypes = [
-        'Medicine',
-        'Blood',
-        'Medical Equipment'
-    ];
+    const inventoryTypes = ['Medicine', 'Blood', 'Medical Equipment'];
 
     const handleAddInventory = async () => {
         if (!newInventory.type || !newInventory.name || !newInventory.quantity) {
+            alert("Please fill in all fields");
             return;
         }
 
-        newInventory.email = Cookies.get('email');
+        const email = Cookies.get('email');
+        if (!email) {
+            alert("User email not found. Please log in again.");
+            return;
+        }
+
         try {
             const response = await axios.post(
                 `${backendURL}/add/inventory`,
-                { newInventory },
+                {
+                    newInventory: {
+                        ...newInventory,
+                        email,
+                    },
+                },
                 {
                     headers: {
                         "Content-Type": "application/json",
                     },
                 }
             );
-            console.log(response);
 
-            if (response.status == 200) {
-                setInventories([...inventories, { ...newInventory, id: Date.now() }]);
-                setNewInventory({ type: '', name: '', quantity: '' });
+            if (response.status === 200) {
+                fetchInventory(); // Refresh the inventory list after adding
+                setNewInventory({ type: '', name: '', quantity: '' }); // Reset form
+            } else {
+                alert("Failed to add new inventory item");
             }
-            else {
-                alert("Failed to add new inventory");
-            }
-        }
-        catch (error) {
-            console.error(error);
-            alert("Failed to add new inventory");
+        } catch (error) {
+            console.error("Error adding inventory:", error);
+            alert("Failed to add new inventory item");
         }
     };
 
-    const handleDeleteInventory = (id) => {
-        setInventories(inventories.filter(item => item.id !== id));
+    const handleDeleteInventory = async (id) => {
+        const email = Cookies.get('email');
+        if (!email) {
+            alert("User email not found. Please log in again.");
+            return;
+        }
+
+        try {
+            const response = await axios.post(
+                `${backendURL}/delete/inventory`,
+                {
+                    id,
+                    email,
+                },
+                {
+                    headers: { "Content-Type": "application/json" },
+                }
+            );
+
+            if (response.status === 200) {
+                fetchInventory(); // Refresh inventory after deletion
+            } else {
+                alert("Failed to delete inventory item");
+            }
+        } catch (error) {
+            console.error("Error deleting inventory:", error);
+            alert("Failed to delete inventory item");
+        }
     };
-    if (loading) return <div className="loading">Loading appointments...</div>;
 
-    // Render error state
-    if (error) return <div className="error">{error}</div>;
-
+    if (loading) return <div className="p-4 text-center">Loading inventory...</div>;
 
     return (
         <div className="p-2 w-full">
@@ -99,6 +141,12 @@ const InventoryManagement = () => {
                     <CardTitle className="text-[#563393] text-3xl font-bold">Inventory Management</CardTitle>
                 </CardHeader>
                 <CardContent>
+                    {error && (
+                        <div className="mb-4 p-2 bg-red-100 text-red-600 rounded">
+                            {error}
+                        </div>
+                    )}
+
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
                         <div>
                             <Label htmlFor="type" className="text-[#563393]">Type</Label>
@@ -164,24 +212,25 @@ const InventoryManagement = () => {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {inventories.map((item) => (
-                                <TableRow key={item.id} className="border-[#563393]/10">
-                                    <TableCell>{item.type}</TableCell>
-                                    <TableCell>{item.name}</TableCell>
-                                    <TableCell>{item.quantity}</TableCell>
-                                    <TableCell>
-                                        <Button
-                                            variant="ghost"
-                                            size="icon"
-                                            onClick={() => handleDeleteInventory(item.id)}
-                                            className="hover:bg-[#563393]/10"
-                                        >
-                                            <Trash2 className="w-4 h-4 text-red-500" />
-                                        </Button>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                            {inventories.length === 0 && (
+                            {inventories.length > 0 ? (
+                                inventories.map((item) => (
+                                    <TableRow key={item._id || item.id || Math.random().toString()} className="border-[#563393]/10">
+                                        <TableCell>{item.type}</TableCell>
+                                        <TableCell>{item.name}</TableCell>
+                                        <TableCell>{item.quantity}</TableCell>
+                                        <TableCell>
+                                            <Button
+                                                variant="ghost"
+                                                size="icon"
+                                                onClick={() => handleDeleteInventory(item._id || item.id)}
+                                                className="hover:bg-[#563393]/10"
+                                            >
+                                                <Trash2 className="w-4 h-4 text-red-500" />
+                                            </Button>
+                                        </TableCell>
+                                    </TableRow>
+                                ))
+                            ) : (
                                 <TableRow>
                                     <TableCell colSpan={4} className="text-center text-[#563393]/60">
                                         No items in inventory
