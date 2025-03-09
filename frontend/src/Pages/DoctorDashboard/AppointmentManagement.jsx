@@ -93,7 +93,7 @@ const AppointmentManagement = () => {
               <div className="flex-grow mb-2 sm:mb-0 w-full sm:w-auto">
                 <div className="flex items-center">
                   <UserPlus className="mr-2 h-5 w-5 text-[#563393]" />
-                  <div className="font-bold text-sm sm:text-base">{appointment.patientName}</div>
+                  <div className="font-bold text-sm sm:text-base">{appointment.patient}</div>
                 </div>
                 <div className="flex items-center text-xs sm:text-sm text-gray-600 mt-1 relative">
                   {truncateText(appointment.issue)}
