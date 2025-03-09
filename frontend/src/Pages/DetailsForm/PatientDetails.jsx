@@ -3,7 +3,7 @@ import { Country, State, City } from "country-state-city";
 import { Label } from "@/Components/ui/label";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import Button from '../../components/ui/button';
+import { Button } from '@/Components/ui/button';
 import { Input } from "@/Components/ui/input";
 import Select from "react-select";
 import Cookies from 'js-cookie';
@@ -94,13 +94,13 @@ function PatientDetails() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const emailFromCookie = Cookies.get('email');
-    const roleFromCookie = Cookies.get('role');  
+    const roleFromCookie = Cookies.get('role');
     Cookies.set('isLoggedIn', true);
 
     const submissionData = {
       ...formData,
       email: emailFromCookie,
-      role: roleFromCookie, 
+      role: roleFromCookie,
       phone: phone,
       date: date,
     };

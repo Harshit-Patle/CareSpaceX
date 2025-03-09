@@ -24,7 +24,7 @@ function Header() {
             {/* Left - Logo Section */}
             <div className='flex items-center space-x-4 drop-shadow-xl '>
                 <img
-                    src="../public/image.png"
+                    src="./image.png"
                     alt="LOGO"
                     className='w-16 h-16 object-contain'
                 />
