@@ -19,26 +19,41 @@ const InventoryManagement = () => {
     const fetchInventory = async () => {
         try {
             const email = Cookies.get('email');
+            if (!email) {
+                setError("User not logged in");
+                setLoading(false);
+                return;
+            }
+
             const response = await axios.post(
                 `${backendURL}/add/collect`,
                 { email },
                 { headers: { "Content-Type": "application/json" } }
             );
 
-            // Check if response.data exists and response.data.items is an array
-            if (response.data && Array.isArray(response.data.items)) {
-                setInventories(response.data.items);
-            } else {
-                // Ensure we always set inventories to an array, even if the response is unexpected
-                setInventories([]);
+            // Initialize inventories as an empty array by default
+            let items = [];
+
+            // Check for valid response data
+            if (response && response.data) {
+                // If items exists and is an array, use it
+                if (Array.isArray(response.data.items)) {
+                    items = response.data.items;
+                }
+                // Handle case where response.data itself might be the array
+                else if (Array.isArray(response.data)) {
+                    items = response.data;
+                }
+                // Otherwise, keep the empty array
             }
+
+            setInventories(items);
             setLoading(false);
         } catch (err) {
             console.error("Error fetching inventory:", err);
             setError("Failed to fetch inventory items");
-            setLoading(false);
-            // Ensure inventories is an empty array in case of error
             setInventories([]);
+            setLoading(false);
         }
     };
 
@@ -131,9 +146,10 @@ const InventoryManagement = () => {
         }
     };
 
+    // Display loading state
     if (loading) return <div className="p-4 text-center">Loading inventory...</div>;
-    if (error) return <div className="p-4 text-center text-red-500">{error}</div>;
 
+    // Always render the component even if there's an error
     return (
         <div className="p-2 w-full">
             <Card className="border-[#563393]/20">
@@ -141,6 +157,12 @@ const InventoryManagement = () => {
                     <CardTitle className="text-[#563393] text-3xl font-bold">Inventory Management</CardTitle>
                 </CardHeader>
                 <CardContent>
+                    {error && (
+                        <div className="mb-4 p-2 bg-red-100 text-red-600 rounded">
+                            {error}
+                        </div>
+                    )}
+
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
                         <div>
                             <Label htmlFor="type" className="text-[#563393]">Type</Label>
@@ -206,9 +228,9 @@ const InventoryManagement = () => {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {Array.isArray(inventories) && inventories.length > 0 ? (
+                            {inventories && inventories.length > 0 ? (
                                 inventories.map((item) => (
-                                    <TableRow key={item._id || item.id} className="border-[#563393]/10">
+                                    <TableRow key={item._id || item.id || Math.random().toString()} className="border-[#563393]/10">
                                         <TableCell>{item.type}</TableCell>
                                         <TableCell>{item.name}</TableCell>
                                         <TableCell>{item.quantity}</TableCell>
