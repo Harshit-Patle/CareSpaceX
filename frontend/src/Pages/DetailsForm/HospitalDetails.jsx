@@ -26,7 +26,7 @@ function HospitalDetails() {
   });
   const backendURL = import.meta.env.VITE_BACKEND_URL;
 
-  // Custom styles for Select components
+  // Custom styles for Select Components
   const customStyles = {
     control: (base) => ({
       ...base,

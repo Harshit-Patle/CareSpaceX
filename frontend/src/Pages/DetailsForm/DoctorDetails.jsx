@@ -4,7 +4,7 @@ import { Label } from "@/Components/ui/label";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import Select from "react-select";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/Components/ui/button";
 import { Input } from "@/Components/ui/input";
 import axios from 'axios';
 import Cookies from 'js-cookie';
