@@ -125,7 +125,7 @@ const BookHospitalBed = ({ hospitals }) => {
                 </p>
                 <p className="text-sm flex items-center" style={{ color: "#563393" }}>
                   <DollarSign size={16} className="mr-2" />
-                  <strong>Price per night:</strong> ₹{hospital.charges}
+                  <strong>Price per day:</strong> ₹{hospital.charges}
                 </p>
                 <p className="text-sm flex items-center" style={{ color: "#563393" }}>
                   <MapPin size={16} className="mr-2" />

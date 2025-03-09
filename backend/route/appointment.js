@@ -29,6 +29,8 @@ app.post('/bed', async (req, res) => {
             status: 'pending',
         });
 
+        console.log(users)
+
         res.json(users);
     }
     catch (err) {
