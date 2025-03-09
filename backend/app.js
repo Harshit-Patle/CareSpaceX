@@ -52,6 +52,7 @@ var corsOptions = {
 app.use(cors(corsOptions));
 
 app.use('/sign', sign);
+app.use('/add',inventry)
 app.use('/detail', details);
 app.use('/loading', loading);
 app.use('/payment', payment);
@@ -59,7 +60,6 @@ app.use('/hospital', hospital);
 app.use('/history', chat);
 app.use('/list', list);
 app.use('/profile', profile);
-app.use('/add', inventry);
 app.use('/history', history);
 app.use('/medicine', medicine);
 app.use('/admin', approval)

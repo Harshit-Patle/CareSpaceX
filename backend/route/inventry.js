@@ -22,6 +22,7 @@ app.post('/inventory', async (req, res) => {
         });
 
         await newItem.save();
+        console.log(newItem);
         return res.status(200).json({ message: 'Item added to inventory successfully.' });
     } catch (error) {
         return res.status(500).json({ message: 'Server error. Please try again later.' });
