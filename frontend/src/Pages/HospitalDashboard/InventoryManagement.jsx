@@ -25,9 +25,11 @@ const InventoryManagement = () => {
                 { headers: { "Content-Type": "application/json" } }
             );
 
-            if (response.data && response.data.items) {
+            // Check if response.data exists and response.data.items is an array
+            if (response.data && Array.isArray(response.data.items)) {
                 setInventories(response.data.items);
             } else {
+                // Ensure we always set inventories to an array, even if the response is unexpected
                 setInventories([]);
             }
             setLoading(false);
@@ -35,6 +37,8 @@ const InventoryManagement = () => {
             console.error("Error fetching inventory:", err);
             setError("Failed to fetch inventory items");
             setLoading(false);
+            // Ensure inventories is an empty array in case of error
+            setInventories([]);
         }
     };
 
@@ -202,7 +206,7 @@ const InventoryManagement = () => {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {inventories && inventories.length > 0 ? (
+                            {Array.isArray(inventories) && inventories.length > 0 ? (
                                 inventories.map((item) => (
                                     <TableRow key={item._id || item.id} className="border-[#563393]/10">
                                         <TableCell>{item.type}</TableCell>
