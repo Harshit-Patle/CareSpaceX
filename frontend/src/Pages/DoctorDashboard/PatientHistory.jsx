@@ -9,6 +9,7 @@ const PatientHistory = () => {
   const [selectedPrescription, setSelectedPrescription] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const backendURL = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
     const fetchPatient = async () => {
