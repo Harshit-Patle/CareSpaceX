@@ -25,7 +25,8 @@ app.post('/bed', async (req, res) => {
     let email = req.body.email;
     try {
         let users = await bed.find({ 
-            Hospital: email 
+            Hospital: email ,
+            status: 'pending',
         });
 
         res.json(users);
