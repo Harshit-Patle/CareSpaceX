@@ -5,9 +5,9 @@ import {
     DialogHeader,
     DialogTitle,
     DialogDescription
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+} from "@/Components/ui/dialog";
+import { Button } from "@/Components/ui/button";
+import { Input } from "@/Components/ui/input";
 import { Bed, FileText } from "lucide-react";
 import axios from 'axios';
 import Cookies from 'js-cookie';

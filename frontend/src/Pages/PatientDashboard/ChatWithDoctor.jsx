@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent } from '@/Components/ui/card';
 import { MessageSquare } from 'lucide-react';
 import ChatInterface from "@/Components/ChatInterface";
 import io from 'socket.io-client';

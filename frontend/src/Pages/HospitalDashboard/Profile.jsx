@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Building2, Mail, Phone, MapPin, Stethoscope, Bed, LinkIcon } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/Components/ui/card';
 import axios from "axios";
 import Cookies from 'js-cookie';
 

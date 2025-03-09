@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Search } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input'; 
+import { Card, CardContent } from '@/Components/ui/card';
+import { Input } from '@/Components/ui/input'; 
 import axios from "axios";
 import Cookies from 'js-cookie';
 
