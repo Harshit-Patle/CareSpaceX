@@ -9,41 +9,43 @@ import { PlusCircle, Trash2 } from 'lucide-react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 
-const baseURL = import.meta.env.VITE_BACKEND_URL;
+const backendURL = import.meta.env.VITE_BACKEND_URL;
 
 const InventoryManagement = () => {
     const [inventories, setInventories] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    useEffect(() => {
-        const fetchAppointments = async () => {
-            try {
-                const email = Cookies.get('email');
-                const response = await axios.post(
-                    `${baseURL}/add/collect`,
-                    { email },
-                    { headers: { "Content-Type": "application/json" } }
-                );
-                console.log(response.data.items[0]);
+    const fetchInventory = async () => {
+        try {
+            const email = Cookies.get('email');
+            const response = await axios.post(
+                `${backendURL}/add/collect`,
+                { email },
+                { headers: { "Content-Type": "application/json" } }
+            );
+
+            if (response.data && response.data.items) {
                 setInventories(response.data.items);
-                setLoading(false);
-            } catch (err) {
-                console.error(err);
-                setError("Something went wrong while fetching the appointments.");
-                setLoading(false);
+            } else {
+                setInventories([]);
             }
-        };
+            setLoading(false);
+        } catch (err) {
+            console.error("Error fetching inventory:", err);
+            setError("Failed to fetch inventory items");
+            setLoading(false);
+        }
+    };
 
-        fetchAppointments();
+    useEffect(() => {
+        fetchInventory();
     }, []);
-
 
     const [newInventory, setNewInventory] = useState({
         type: '',
         name: '',
         quantity: '',
-        email: '',
     });
 
     const inventoryTypes = [
@@ -54,44 +56,79 @@ const InventoryManagement = () => {
 
     const handleAddInventory = async () => {
         if (!newInventory.type || !newInventory.name || !newInventory.quantity) {
+            alert("Please fill in all fields");
             return;
         }
 
-        newInventory.email = Cookies.get('email');
+        const email = Cookies.get('email');
+        if (!email) {
+            alert("User email not found. Please log in again.");
+            return;
+        }
+
         try {
             const response = await axios.post(
-                `${baseURL} /add/inventory`,
-                { newInventory },
+                `${backendURL}/add/inventory`,
+                {
+                    newInventory: {
+                        ...newInventory,
+                        email
+                    }
+                },
                 {
                     headers: {
                         "Content-Type": "application/json",
                     },
                 }
             );
-            console.log(response);
 
-            if (response.status == 200) {
-                setInventories([...inventories, { ...newInventory, id: Date.now() }]);
+            if (response.status === 200) {
+                // Refresh the inventory list after adding
+                fetchInventory();
+                // Reset the form
                 setNewInventory({ type: '', name: '', quantity: '' });
+            } else {
+                alert("Failed to add new inventory item");
             }
-            else {
-                alert("Failed to add new inventory");
-            }
-        }
-        catch (error) {
-            console.error(error);
-            alert("Failed to add new inventory");
+        } catch (error) {
+            console.error("Error adding inventory:", error);
+            alert("Failed to add new inventory item");
         }
     };
 
-    const handleDeleteInventory = (id) => {
-        setInventories(inventories.filter(item => item.id !== id));
+    const handleDeleteInventory = async (id) => {
+        const email = Cookies.get('email');
+        if (!email) {
+            alert("User email not found. Please log in again.");
+            return;
+        }
+
+        try {
+            const response = await axios.post(
+                `${backendURL}/delete/inventory`,
+                {
+                    id,
+                    email
+                },
+                {
+                    headers: { "Content-Type": "application/json" }
+                }
+            );
+
+            if (response.status === 200) {
+                // Refresh the inventory after deletion
+                fetchInventory();
+            } else {
+                alert("Failed to delete inventory item");
+            }
+        } catch (error) {
+            console.error("Error deleting inventory:", error);
+            alert("Failed to delete inventory item");
+        }
     };
-    if (loading) return <div className="loading">Loading appointments...</div>;
 
-    // Render error state
-    if (error) return <div className="error">{error}</div>;
-
+    if (loading) return <div className="p-4 text-center">Loading inventory...</div>;
+    if (error) return <div className="p-4 text-center text-red-500">{error}</div>;
 
     return (
         <div className="p-2 w-full">
@@ -165,24 +202,25 @@ const InventoryManagement = () => {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {inventories.map((item) => (
-                                <TableRow key={item.id} className="border-[#563393]/10">
-                                    <TableCell>{item.type}</TableCell>
-                                    <TableCell>{item.name}</TableCell>
-                                    <TableCell>{item.quantity}</TableCell>
-                                    <TableCell>
-                                        <Button
-                                            variant="ghost"
-                                            size="icon"
-                                            onClick={() => handleDeleteInventory(item.id)}
-                                            className="hover:bg-[#563393]/10"
-                                        >
-                                            <Trash2 className="w-4 h-4 text-red-500" />
-                                        </Button>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                            {inventories.length === 0 && (
+                            {inventories && inventories.length > 0 ? (
+                                inventories.map((item) => (
+                                    <TableRow key={item._id || item.id} className="border-[#563393]/10">
+                                        <TableCell>{item.type}</TableCell>
+                                        <TableCell>{item.name}</TableCell>
+                                        <TableCell>{item.quantity}</TableCell>
+                                        <TableCell>
+                                            <Button
+                                                variant="ghost"
+                                                size="icon"
+                                                onClick={() => handleDeleteInventory(item._id || item.id)}
+                                                className="hover:bg-[#563393]/10"
+                                            >
+                                                <Trash2 className="w-4 h-4 text-red-500" />
+                                            </Button>
+                                        </TableCell>
+                                    </TableRow>
+                                ))
+                            ) : (
                                 <TableRow>
                                     <TableCell colSpan={4} className="text-center text-[#563393]/60">
                                         No items in inventory
