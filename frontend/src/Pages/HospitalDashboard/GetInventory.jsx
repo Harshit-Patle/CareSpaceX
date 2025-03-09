@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Search } from 'lucide-react';
 import { Card, CardContent } from '@/Components/ui/card';
-import { Input } from '@/Components/ui/input'; 
+import { Input } from '@/Components/ui/input';
 import axios from "axios";
 import Cookies from 'js-cookie';
+const backendURL = import.meta.env.VITE_BACKEND_URL;
 
 const GetInventory = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [inventoryData, setinventoryData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const backendURL = import.meta.env.VITE_BACKEND_URL;
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -20,7 +20,7 @@ const GetInventory = () => {
                     {},
                     { headers: { "Content-Type": "application/json", }, }
                 );
-                setinventoryData(response.data); 
+                setinventoryData(response.data);
                 setLoading(false);
             } catch (err) {
                 setError("Something went wrong!");

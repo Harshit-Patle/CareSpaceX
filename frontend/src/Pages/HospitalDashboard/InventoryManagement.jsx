@@ -9,11 +9,11 @@ import { PlusCircle, Trash2 } from 'lucide-react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 
+const backendURL = import.meta.env.VITE_BACKEND_URL;
 const InventoryManagement = () => {
     const [inventories, setInventories] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const backendURL = import.meta.env.VITE_BACKEND_URL;
 
     useEffect(() => {
         const fetchAppointments = async () => {
@@ -29,14 +29,14 @@ const InventoryManagement = () => {
                 setLoading(false);
             } catch (err) {
                 console.error(err);
-                setError("Something went wrong while fetching the appointments.");
+                setError("No inventory items found");
                 setLoading(false);
             }
         };
 
         fetchAppointments();
     }, []);
-    
+
 
     const [newInventory, setNewInventory] = useState({
         type: '',
